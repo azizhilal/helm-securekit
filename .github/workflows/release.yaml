@@ -27,8 +27,14 @@ jobs:
       - name: Update Helm repo index
         run: |
           mkdir -p docs
-          helm repo index docs --url https://azizhilal.github.io/helm-securekit --merge docs/index.yaml || helm repo index docs --url https://azizhilal.github.io/helm-securekit
           mv helm-securekit-*.tgz docs/
+          # IMPORTANT: index AFTER the .tgz is in docs/
+          if [ -f docs/index.yaml ]; then
+            helm repo index docs --url https://azizhilal.github.io/helm-securekit --merge docs/index.yaml
+          else
+            helm repo index docs --url https://azizhilal.github.io/helm-securekit
+          fi
+          touch docs/.nojekyll
 
       - name: Commit index and package
         run: |
@@ -36,11 +42,9 @@ jobs:
           git config user.email "abdulazizbinhelal1@gmail.com"
           git add docs/
           git commit -m "Update Helm repo index" || echo "No changes to commit"
-          git tag -f ${{ github.ref_name }}
 
       - name: Push changes
-        run: |
-          git push --follow-tags || true
+        run: git push
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
