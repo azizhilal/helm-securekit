@@ -267,23 +267,6 @@ If Kyverno is installed, SecureKit can add conservative policies (no privileged,
 * Current version: **0.1.0**
 * Tag `vX.Y.Z` to release. GitHub Actions packages chart, updates `/docs`, and creates release.
 
----
-
-## Contributing
-
-PRs welcome! Please keep defaults **secure-by-default** and distro-agnostic.
-
-* [Open an issue](https://github.com/azizhilal/helm-securekit/issues)
-* [Start a discussion](https://github.com/azizhilal/helm-securekit/discussions)
-
----
-
-## Security policy
-
-Report security issues to **[abdulazizbinhelal1@gmail.com](mailto:abdulazizbinhelal1@gmail.com)**.
-
----
-
 ## License
 
 Apache-2.0 © Abdulaziz Alhelal
