@@ -1,0 +1,77 @@
+securekit:
+  enabled: true
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop: ["ALL"]
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+    fsGroup: 10001
+
+  podSecurityAdmission:
+    enabled: true
+    level: "restricted"
+    version: "latest"
+
+  networkPolicy:
+    enabled: true
+    ingress:
+      defaultDeny: true
+      allowFromNamespaces: []
+      allowFromCIDRs: []
+      allowSameNamespace: true
+    egress:
+      defaultDeny: true
+      allowToNamespaces: ["kube-system"]
+      allowToCIDRs: []
+      allowDNS: true
+      extraPorts: []
+
+  pdb:
+    enabled: true
+    minAvailable: ""
+    maxUnavailable: "25%"
+
+  hpa:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 10
+    targets:
+      cpu:
+        enabled: true
+        averageUtilization: 70
+      memory:
+        enabled: false
+        averageUtilization: 80
+
+  probes:
+    http:
+      enabled: true
+      path: /healthz
+      port: http
+      initialDelaySeconds: 5
+      periodSeconds: 10
+
+  prometheus:
+    serviceMonitor:
+      enabled: false
+      interval: 30s
+      scrapeTimeout: 10s
+      labels: {}
+    podMonitor:
+      enabled: false
+
+  kyverno:
+    enabled: false
+    rules:
+      disallow-privileged: true
+      drop-all-capabilities: true
+      disallow-root: true

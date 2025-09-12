@@ -1,0 +1,17 @@
+{{- if and .Values.securekit.enabled .Values.securekit.prometheus.serviceMonitor.enabled -}}
+{{- if .Capabilities.APIVersions.Has "monitoring.coreos.com/v1/ServiceMonitor" }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "chart.name" . }}
+  labels:
+    {{- include "securekit.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "chart.name" . }}
+  endpoints:
+    - interval: {{ .Values.securekit.prometheus.serviceMonitor.interval }}
+      scrapeTimeout: {{ .Values.securekit.prometheus.serviceMonitor.scrapeTimeout }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,9 @@
+{{- if and .Values.securekit.enabled .Values.securekit.podSecurityAdmission.enabled .Values.namespace.create -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace.name }}
+  labels:
+    pod-security.kubernetes.io/enforce: {{ .Values.securekit.podSecurityAdmission.level | quote }}
+    pod-security.kubernetes.io/enforce-version: {{ .Values.securekit.podSecurityAdmission.version | quote }}
+{{- end }}

@@ -1,0 +1,27 @@
+image:
+  repository: ghcr.io/buddyspike/helloserver
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  hosts:
+    - host: example.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+namespace:
+  create: false
+  name: default
+
+securekit:
+  # Inherit defaults from the library chart
+  networkPolicy:
+    ingress:
+      allowFromNamespaces: ["ingress-nginx"]

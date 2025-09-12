@@ -1,0 +1,67 @@
+{{- if and .Values.securekit.enabled .Values.securekit.networkPolicy.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "chart.name" . }}-default-deny
+  labels:
+    {{- include "securekit.labels" . | nindent 4 }}
+spec:
+  podSelector: {{}}
+  policyTypes: ["Ingress","Egress"]
+  ingress:
+  {{- if .Values.securekit.networkPolicy.ingress.defaultDeny }}[]{{ else }}[{{"{}"}}]{{ end }}
+  egress:
+  {{- if .Values.securekit.networkPolicy.egress.defaultDeny }}[]{{ else }}[{{"{}"}}]{{ end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "chart.name" . }}-allow-common
+  labels:
+    {{- include "securekit.labels" . | nindent 4 }}
+spec:
+  podSelector: {{}}
+  policyTypes: ["Ingress","Egress"]
+  {{- if .Values.securekit.networkPolicy.ingress.defaultDeny }}
+  ingress:
+    - from:
+      {{- if .Values.securekit.networkPolicy.ingress.allowSameNamespace }}
+        - podSelector: {{}}
+      {{- end }}
+      {{- range .Values.securekit.networkPolicy.ingress.allowFromNamespaces }}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . | quote }}
+      {{- end }}
+      {{- range .Values.securekit.networkPolicy.ingress.allowFromCIDRs }}
+        - ipBlock:
+            cidr: {{ . | quote }}
+      {{- end }}
+  {{- end }}
+  {{- if .Values.securekit.networkPolicy.egress.defaultDeny }}
+  egress:
+    - to:
+      {{- if .Values.securekit.networkPolicy.egress.allowDNS }}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          ports:
+            - port: 53
+              protocol: TCP
+            - port: 53
+              protocol: UDP
+      {{- end }}
+      {{- range .Values.securekit.networkPolicy.egress.allowToNamespaces }}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . | quote }}
+      {{- end }}
+      {{- range $i, $p := .Values.securekit.networkPolicy.egress.extraPorts }}
+        - ipBlock:
+            cidr: {{ (first $p.toCIDRs) | quote }}
+          ports:
+            - port: {{ $p.port }}
+              protocol: {{ default "TCP" $p.protocol }}
+      {{- end }}
+  {{- end }}
+{{- end }}

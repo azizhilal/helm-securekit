@@ -1,0 +1,17 @@
+{{- if and .Values.securekit.enabled .Values.securekit.pdb.enabled -}}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "chart.name" . }}
+  labels:
+    {{- include "securekit.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.securekit.pdb.minAvailable }}
+  minAvailable: {{ .Values.securekit.pdb.minAvailable | quote }}
+  {{- else }}
+  maxUnavailable: {{ .Values.securekit.pdb.maxUnavailable | quote }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "chart.name" . }}
+{{- end }}

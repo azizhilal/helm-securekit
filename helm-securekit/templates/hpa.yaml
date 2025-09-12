@@ -1,0 +1,32 @@
+{{- if and .Values.securekit.enabled .Values.securekit.hpa.enabled -}}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "chart.name" . }}
+  labels:
+    {{- include "securekit.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "chart.name" . }}
+  minReplicas: {{ .Values.securekit.hpa.minReplicas }}
+  maxReplicas: {{ .Values.securekit.hpa.maxReplicas }}
+  metrics:
+  {{- if .Values.securekit.hpa.targets.cpu.enabled }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.securekit.hpa.targets.cpu.averageUtilization }}
+  {{- end }}
+  {{- if .Values.securekit.hpa.targets.memory.enabled }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.securekit.hpa.targets.memory.averageUtilization }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,27 @@
+apiVersion: v2
+name: helm-securekit
+description: Security, resilience, and observability building blocks for any Helm chart (library chart).
+type: library
+version: 0.1.0
+appVersion: "1.0.0"
+home: https://github.com/azizhilal/helm-securekit
+keywords: ["helm-library", "security", "networkpolicy", "podsecurity", "pdb", "hpa", "probes"]
+kubeVersion: ">=1.25.0-0"
+maintainers:
+  - name: Abdulaziz Alhelal
+    email: abdulazizbinhelal1@gmail.com
+sources:
+  - https://github.com/azizhilal/helm-securekit
+annotations:
+  artifacthub.io/containsSecurityUpdates: "true"
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/recommendations: |
+    - url: https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
+  artifacthub.io/links: |
+    - name: Source
+      url: https://github.com/azizhilal/helm-securekit
+    - name: Issues
+      url: https://github.com/azizhilal/helm-securekit/issues
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release with NetworkPolicy, PDB, HPA, PodSecurity helpers and probes.

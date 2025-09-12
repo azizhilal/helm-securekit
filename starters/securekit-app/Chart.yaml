@@ -1,0 +1,6 @@
+apiVersion: v2
+name: securekit-app
+description: Starter chart pre-wired with Helm SecureKit helpers.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
