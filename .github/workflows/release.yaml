@@ -18,17 +18,17 @@ jobs:
         uses: azure/setup-helm@v4
         with:
           version: v3.14.4
+          
 
       - name: Package chart
         run: |
           helm lint helm-securekit
           helm package helm-securekit --destination .
-
+      
       - name: Update Helm repo index
         run: |
           mkdir -p docs
           mv helm-securekit-*.tgz docs/
-          # IMPORTANT: index AFTER the .tgz is in docs/
           if [ -f docs/index.yaml ]; then
             helm repo index docs --url https://azizhilal.github.io/helm-securekit --merge docs/index.yaml
           else
