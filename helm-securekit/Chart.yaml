@@ -2,7 +2,7 @@ apiVersion: v2
 name: helm-securekit
 description: Security, resilience, and observability building blocks for any Helm chart (library chart).
 type: library
-version: 0.1.3
+version: 0.1.4
 appVersion: "1.0.0"
 home: https://github.com/azizhilal/helm-securekit
 keywords:
