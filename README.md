@@ -267,6 +267,8 @@ If Kyverno is installed, SecureKit can add conservative policies (no privileged,
 * Current version: **0.1.0**
 * Tag `vX.Y.Z` to release. GitHub Actions packages chart, updates `/docs`, and creates release.
 
+---
+
 ## License
 
 Apache-2.0 © Abdulaziz Alhelal
