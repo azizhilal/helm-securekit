@@ -1,0 +1,9 @@
+repositoryID: 888e6354-9da1-432e-b419-55bebf4f4000
+owners:
+  - name: Abdulaziz Alhelal
+    email: abdulazizbinhelal1@gmail.com
+displayName: Helm SecureKit
+categories:
+  - security
+  - observability
+  - kubernetes
