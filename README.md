@@ -1,8 +1,4 @@
-Here’s a **drop-in README.md** you can paste into your repo. It explains exactly what the chart does, how to use it, and the defaults—so users can install it with confidence.
-
----
-
-# Helm SecureKit (library chart)
+# Helm SecureKit
 
 Security, resilience, and observability **building blocks** for any Helm chart — delivered as a **Helm library chart** (no pods created). Add SecureKit as a dependency and get:
 
